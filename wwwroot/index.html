@@ -68,12 +68,29 @@
         <button onclick="submitForm()">Save</button>
         <button onclick="hideForm()">Cancel</button>
     </div>
-    <div id="computeContainer" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px; width:300px;">
+    <!--<div id="computeContainer" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px; width:300px;">
         <h3>Compute Take-Home Pay</h3>
         <input type="date" id="computeStart" placeholder="Start Date" />
         <input type="date" id="computeEnd" placeholder="End Date" />
         <br />
         <button id="computeButton">Compute</button>
+        <div id="computeResult" style="margin-top:10px; font-weight:bold;"></div>
+    </div>-->
+    <div id="computeContainer" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px; width:300px;">
+        <h3>Compute Take-Home Pay</h3>
+
+        <label for="computeStart">Start Date</label>
+        <input type="date" id="computeStart" placeholder="Start Date" />
+
+        <br />
+
+        <label for="computeEnd">End Date</label>
+        <input type="date" id="computeEnd" placeholder="End Date" />
+
+        <br />
+
+        <button id="computeButton">Compute</button>
+
         <div id="computeResult" style="margin-top:10px; font-weight:bold;"></div>
     </div>
 
@@ -90,17 +107,17 @@
                 employees.forEach(emp => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                            <td>${emp.employeeNumber}</td>
-                            <td>${emp.lastName}, ${emp.firstName}  ${emp.middleName} </td>
-                            <td>${new Date(emp.dateOfBirth).toLocaleDateString()}</td>
-                            <td>${emp.dailyRate}</td>
-                            <td>${emp.workingDays}</td>
-                            <td>
-                                <button onclick="showEditForm(${emp.uniqueNumber})">Edit</button>
-                                <button onclick="deleteEmployee(${emp.uniqueNumber})">Delete</button>
-                                <button onclick="computeEmployee(${emp.uniqueNumber})">Compute</button>
-                            </td>
-                        `;
+                                <td>${emp.employeeNumber}</td>
+                                <td>${emp.lastName}, ${emp.firstName}  ${emp.middleName} </td>
+                                <td>${new Date(emp.dateOfBirth).toLocaleDateString()}</td>
+                                <td>${emp.dailyRate}</td>
+                                <td>${emp.workingDays}</td>
+                                <td>
+                                    <button onclick="showEditForm(${emp.uniqueNumber})">Edit</button>
+                                    <button onclick="deleteEmployee(${emp.uniqueNumber})">Delete</button>
+                                    <button onclick="computeEmployee(${emp.uniqueNumber})">Compute</button>
+                                </td>
+                            `;
                     tbody.appendChild(tr);
                 });
             } catch (err) {
@@ -264,7 +281,7 @@
         }
 
         // Attach calculateTakeHome to the button
-        document.getElementById('computeButton').addEventListener('click', calculateTakeHome);   
+        document.getElementById('computeButton').addEventListener('click', calculateTakeHome);
 
 
 

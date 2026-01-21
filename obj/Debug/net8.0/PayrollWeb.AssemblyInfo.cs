@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PayrollWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd3a2a411e764fc98a15f33d6cb4e7ea30c00caf")]
 [assembly: System.Reflection.AssemblyProductAttribute("PayrollWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PayrollWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
