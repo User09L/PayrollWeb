@@ -1,0 +1,16 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/PayrollWeb/index.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-mPnHSPsFQzAAztCbVO50mRYpda49jY\u002BcVIoYJY8E1T8="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"10875"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022mPnHSPsFQzAAztCbVO50mRYpda49jY\u002BcVIoYJY8E1T8=\u0022"},{"Name":"Last-Modified","Value":"Tue, 20 Jan 2026 21:10:22 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/PayrollWeb/index.wmyd1e3x46.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"wmyd1e3x46"},{"Name":"integrity","Value":"sha256-mPnHSPsFQzAAztCbVO50mRYpda49jY\u002BcVIoYJY8E1T8="},{"Name":"label","Value":"_content/PayrollWeb/index.html"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"10875"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022mPnHSPsFQzAAztCbVO50mRYpda49jY\u002BcVIoYJY8E1T8=\u0022"},{"Name":"Last-Modified","Value":"Tue, 20 Jan 2026 21:10:22 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

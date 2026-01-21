@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payroll Employees</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            margin-right: 5px;
+        }
+
+        input {
+            margin: 5px 0;
+            width: 100%;
+            padding: 5px;
+        }
+
+        #formContainer {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employees</h1>
+    <button onclick="showAddForm()">Add Employee</button>
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>Employee Number</th>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Daily Rate</th>
+                <th>Working Days</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div id="formContainer">
+        <h3 id="formTitle">Add Employee</h3>
+        <input type="text" id="employeeNumber" placeholder="Employee Number" readonly />
+        <input type="text" id="firstName" placeholder="First Name" />
+        <input type="text" id="middleName" placeholder="Middle Name" />
+        <input type="text" id="lastName" placeholder="Last Name" />
+        <input type="date" id="dateOfBirth" placeholder="Date of Birth" />
+        <input type="number" step="0.01" id="dailyRate" placeholder="Daily Rate" />
+        <input type="text" id="workingDays" placeholder="Working Days (MWF/TTHS)" />
+        <br />
+        <button onclick="submitForm()">Save</button>
+        <button onclick="hideForm()">Cancel</button>
+    </div>
+    <div id="computeContainer" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px; width:300px;">
+        <h3>Compute Take-Home Pay</h3>
+        <input type="date" id="computeStart" placeholder="Start Date" />
+        <input type="date" id="computeEnd" placeholder="End Date" />
+        <br />
+        <button id="computeButton">Compute</button>
+        <div id="computeResult" style="margin-top:10px; font-weight:bold;"></div>
+    </div>
+
+    <script>
+        const apiUrl = 'https://localhost:7069/api/employees';
+        let editingId = null; // null = add, number = edit (UniqueNumber)
+
+        async function loadEmployees() {
+            try {
+                const response = await fetch(apiUrl);
+                const employees = await response.json();
+                const tbody = document.querySelector('#employeeTable tbody');
+                tbody.innerHTML = '';
+                employees.forEach(emp => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                            <td>${emp.employeeNumber}</td>
+                            <td>${emp.lastName}, ${emp.firstName}  ${emp.middleName} </td>
+                            <td>${new Date(emp.dateOfBirth).toLocaleDateString()}</td>
+                            <td>${emp.dailyRate}</td>
+                            <td>${emp.workingDays}</td>
+                            <td>
+                                <button onclick="showEditForm(${emp.uniqueNumber})">Edit</button>
+                                <button onclick="deleteEmployee(${emp.uniqueNumber})">Delete</button>
+                                <button onclick="computeEmployee(${emp.uniqueNumber})">Compute</button>
+                            </td>
+                        `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Error loading employees:', err);
+            }
+        }
+
+        function showAddForm() {
+            editingId = null;
+            document.getElementById('formTitle').innerText = 'Add Employee';
+            document.getElementById('formContainer').style.display = 'block';
+            clearForm();
+        }
+
+        async function showEditForm(id) {
+            editingId = id;
+            document.getElementById('formTitle').innerText = 'Edit Employee';
+            document.getElementById('formContainer').style.display = 'block';
+            try {
+                const res = await fetch(`${apiUrl}/${id}`);
+                const emp = await res.json();
+                document.getElementById('employeeNumber').value = emp.employeeNumber;
+                document.getElementById('firstName').value = emp.firstName;
+                document.getElementById('middleName').value = emp.middleName;
+                document.getElementById('lastName').value = emp.lastName;
+                document.getElementById('dateOfBirth').value = emp.dateOfBirth.split('T')[0];
+                document.getElementById('dailyRate').value = emp.dailyRate;
+                document.getElementById('workingDays').value = emp.workingDays;
+            } catch (err) {
+                console.error('Error loading employee:', err);
+            }
+        }
+
+        function hideForm() { document.getElementById('formContainer').style.display = 'none'; }
+        function clearForm() {
+            document.getElementById('employeeNumber').value = '';
+            document.getElementById('firstName').value = '';
+            document.getElementById('middleName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('dateOfBirth').value = '';
+            document.getElementById('dailyRate').value = '';
+            document.getElementById('workingDays').value = '';
+        }
+
+        async function submitForm() {
+            const employee = {
+                employeeNumber: document.getElementById('employeeNumber').value,
+                firstName: document.getElementById('firstName').value,
+                middleName: document.getElementById('middleName').value,
+                lastName: document.getElementById('lastName').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                dailyRate: parseFloat(document.getElementById('dailyRate').value),
+                workingDays: document.getElementById('workingDays').value
+            };
+
+            try {
+                if (editingId === null) {
+                    // Add: do NOT include UniqueNumber
+                    await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(employee)
+                    });
+                } else {
+                    // Edit: include UniqueNumber
+                    employee.uniqueNumber = editingId;
+                    await fetch(`${apiUrl}/${editingId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(employee)
+                    });
+                }
+                hideForm();
+                loadEmployees();
+            } catch (err) {
+                console.error('Error saving employee:', err);
+                alert('Failed to save employee. Check console for details.');
+            }
+        }
+
+        async function deleteEmployee(id) {
+            if (!confirm('Are you sure you want to delete this employee?')) return;
+            try {
+                await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
+                loadEmployees();
+            } catch (err) {
+                console.error('Error deleting employee:', err);
+                alert('Failed to delete employee. Check console for details.');
+            }
+        }
+
+        let computeEmp = null;
+
+        function computeEmployee(id) {
+            computeEmp = id; // set current employee
+            document.getElementById('computeContainer').style.display = 'block';
+            document.getElementById('computeStart').value = '';
+            document.getElementById('computeEnd').value = '';
+            document.getElementById('computeResult').innerText = '';
+        }
+
+        // Optional: hide compute container
+        function hideCompute() {
+            document.getElementById('computeContainer').style.display = 'none';
+        }
+
+        // Your existing calculateTakeHome function
+        async function calculateTakeHome() {
+            const start = new Date(document.getElementById('computeStart').value);
+            const end = new Date(document.getElementById('computeEnd').value);
+
+            if (!start || !end || start > end) {
+                alert('Please enter valid start and end dates.');
+                return;
+            }
+
+            console.log('Start Date:', start);
+            console.log('End Date:', end);
+
+            const res = await fetch(`${apiUrl}/${computeEmp}`);
+            const emp = await res.json();
+            console.log('Employee:', emp);
+
+            const dobParts = emp.dateOfBirth.split('T')[0].split('-');
+            const dob = new Date(dobParts[0], dobParts[1] - 1, dobParts[2]);
+            console.log('Parsed DOB:', dob);
+
+            const scheduleMap = { M: 1, T: 2, W: 3, H: 4, F: 5, S: 6, U: 0 };
+            const workDays = emp.workingDays.toUpperCase().split('').map(d => scheduleMap[d]);
+            console.log('Work days (numeric):', workDays);
+
+            let daysCount = 0;
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                const dateOnly = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+                if (workDays.includes(dateOnly.getDay())) daysCount++;
+            }
+            console.log('Matching work days in range:', daysCount);
+
+            let takeHome = daysCount * 2 * emp.dailyRate;
+            console.log('Base pay:', takeHome);
+
+            //const dobThisYear = new Date(start.getFullYear(), dob.getMonth(), dob.getDate());
+            //if (dobThisYear >= start && dobThisYear <= end) {
+            //    console.log('Birthday bonus triggered!');
+            //    takeHome += emp.dailyRate;
+            //} else {
+            //    console.log('Birthday bonus not triggered.');
+            //}
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                const dateOnly = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+                if (workDays.includes(dateOnly.getDay())) daysCount++;
+
+                // Check birthday: same month and day
+                if (dateOnly.getMonth() === dob.getMonth() && dateOnly.getDate() === dob.getDate()) {
+                    console.log('Birthday bonus triggered on', dateOnly.toLocaleDateString());
+                    takeHome += emp.dailyRate; // only add 100% of daily rate once per computation
+                }
+            }
+
+            document.getElementById('computeResult').innerText = takeHome.toFixed(2);
+        }
+
+        // Attach calculateTakeHome to the button
+        document.getElementById('computeButton').addEventListener('click', calculateTakeHome);   
+
+
+
+        loadEmployees();
+    </script>
+</body>
+</html>

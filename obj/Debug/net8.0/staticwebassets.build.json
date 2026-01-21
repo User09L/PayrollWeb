@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Hash": "AVXTMAVRCEcDWnuCVerQxCrT6/L4CoA+QPf+hzKaA3A=",
+  "Source": "PayrollWeb",
+  "BasePath": "_content/PayrollWeb",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "PayrollWeb\\wwwroot",
+      "Source": "PayrollWeb",
+      "ContentRoot": "C:\\Users\\Default.LAPTOP-QMMQ6E13\\source\\repos\\PayrollWeb\\PayrollWeb\\wwwroot\\",
+      "BasePath": "_content/PayrollWeb",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Default.LAPTOP-QMMQ6E13\\source\\repos\\PayrollWeb\\PayrollWeb\\wwwroot\\index.html",
+      "SourceId": "PayrollWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Default.LAPTOP-QMMQ6E13\\source\\repos\\PayrollWeb\\PayrollWeb\\wwwroot\\",
+      "BasePath": "_content/PayrollWeb",
+      "RelativePath": "index#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "wmyd1e3x46",
+      "Integrity": "mPnHSPsFQzAAztCbVO50mRYpda49jY+cVIoYJY8E1T8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "index.html",
+      "AssetFile": "C:\\Users\\Default.LAPTOP-QMMQ6E13\\source\\repos\\PayrollWeb\\PayrollWeb\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "10875"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mPnHSPsFQzAAztCbVO50mRYpda49jY+cVIoYJY8E1T8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 Jan 2026 21:10:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mPnHSPsFQzAAztCbVO50mRYpda49jY+cVIoYJY8E1T8="
+        }
+      ]
+    },
+    {
+      "Route": "index.wmyd1e3x46.html",
+      "AssetFile": "C:\\Users\\Default.LAPTOP-QMMQ6E13\\source\\repos\\PayrollWeb\\PayrollWeb\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "10875"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mPnHSPsFQzAAztCbVO50mRYpda49jY+cVIoYJY8E1T8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 Jan 2026 21:10:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "wmyd1e3x46"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mPnHSPsFQzAAztCbVO50mRYpda49jY+cVIoYJY8E1T8="
+        }
+      ]
+    }
+  ]
+}
